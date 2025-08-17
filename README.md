@@ -66,8 +66,10 @@ The details will change as we test different scenarios.
   - This means it will be looking for a `SayHello()` in the plugin, which still only provides `SayHi()`
 
 - 08:30 Install V1 of App - No Errors or Warnings
-  - As a consumer, in the `usingsayhello` project, run:
-    - `npm i @evalarumbe/deps-experiment-sayhello@latest`
+  - As a consumer, we hear about the update and decide to install the latest version.
+    - In the `usingsayhello` project, run:
+
+      `npm i @evalarumbe/deps-experiment-sayhello@latest`
 
       This updates `package.json` to require `^2.0.1`, and installs the latest version
 
@@ -95,10 +97,19 @@ The details will change as we test different scenarios.
   To prevent the runtime error in future:
   - As the author of the plugin, we want to list which applications the plugin has been tested with. We do that in `package.json` > `peerDependencies`. E.g.
   ```json
-  
+  "peerDependencies": {
+    "@evalarumbe/deps-experiment-sayhello": "^1.0.1"
+  }
   ```
 
-- 10:20 Update version of Plugin to 10.0.2
+- 10:20 Update version of Plugin to 1.0.2
+  - Publish plugin v1.0.2
+  - Let's see how it would've been different if we'd had the peer dependencies defined from the start:
+
+  - In the `usingsayhello` project, reset your file system:
+
+    Delete `package-lock.json` and `node_modules/`
+
 - 11:30 Peer Dependency Warning on attempting to install plugin against V1 of App
 - 13:20 Scenario 4 - Installing Plugin with App V1 - peer dependency should warn/error
 - 14:40 Install Plugin shows Error and blocks install
