@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/evalarumbe/deps-experiment-usingsayhi/issues"
   },
-  "homepage": "https://github.com/evalarumbe/deps-experiment-usingsayhi#readme"
+  "homepage": "https://github.com/evalarumbe/deps-experiment-usingsayhi#readme",
+  "dependencies": {
+    "@evalarumbe/deps-experiment-sayhello": "^1.0.1"
+  }
 }
