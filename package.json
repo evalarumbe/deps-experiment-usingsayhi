@@ -1,0 +1,19 @@
+{
+  "name": "@evalarumbe/deps-experiment-usingsayhello",
+  "version": "1.0.0",
+  "description": "A dependencies experiment to understand error output.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/evalarumbe/deps-experiment-usingsayhi.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/evalarumbe/deps-experiment-usingsayhi/issues"
+  },
+  "homepage": "https://github.com/evalarumbe/deps-experiment-usingsayhi#readme"
+}
