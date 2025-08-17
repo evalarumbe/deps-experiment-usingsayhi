@@ -43,7 +43,7 @@ The details will change as we test different scenarios.
 ## Steps in the tutorial
 
 - 00:55 Create Test Application + Publish to NPM
-  - @evalarumbe/deps-experiment-sayhello v1.0.0
+  - @evalarumbe/deps-experiment-sayhello v1.0.1
 
 - 04:10 Install and Test Application
   - Create new project @evalarumbe/deps-experiment-usingsayhello
@@ -53,7 +53,7 @@ The details will change as we test different scenarios.
     - Output: 'no plugins. Say Hi from App'
 
 - 05:00 Create Test Application Plugin + Publish to NPM
-  - @evalarumbe/deps-experiment-sayhelloplugin v1.0.0
+  - @evalarumbe/deps-experiment-sayhelloplugin v1.0.1
 
 - 06:30 Scenario 1 - Happy Case App and Plugin work together successfully
   - Again in the `usingsayhello` project, run:
@@ -62,14 +62,14 @@ The details will change as we test different scenarios.
     - Output: 'hi from the plugin'
 
 - 07:15 Scenario 2 - App API is updated with breaking change - no Peer Dependency to help us
-  - Author of the app changes the API (`app.SayHi()` is renamed to `app.SayHello()`) in v2.0.0
+  - Author of the app changes the API (`app.SayHi()` is renamed to `app.SayHello()`) in v2.0.1
   - This means it will be looking for a `SayHello()` in the plugin, which still only provides `SayHi()`
 
 - 08:30 Install V1 of App - No Errors or Warnings
   - As a consumer, in the `usingsayhello` project, run:
     - `npm i @evalarumbe/deps-experiment-sayhello@latest`
 
-      This updates `package.json` to require `^2.0.0`, and installs the latest version
+      This updates `package.json` to require `^2.0.1`, and installs the latest version
 
       **Note: No errors or warnings even though this was a breaking change.**
 
@@ -82,11 +82,11 @@ The details will change as we test different scenarios.
       ```sh
       no plugins
       file://.../deps-experiment-sayhelloplugin/node_modules/@evalarumbe/deps-experiment-sayhello/bin/index.js:21
-      console.log(app.SayHi())
+      console.log(app.SayHello())
                       ^
 
-      TypeError: app.SayHi is not a function
-          at file://.../deps-experiment-sayhelloplugin/node_modules/@evalarumbe/deps-experiment-sayhello/bin/index.js:21:17
+      TypeError: app.SayHello is not a function
+          at file://.../deps-experiment-sayhelloplugin/node_modules/@evalarumbe/deps-experiment-sayhello/bin/index.js:19:17
 
       Node.js v18.18.0
       ```
