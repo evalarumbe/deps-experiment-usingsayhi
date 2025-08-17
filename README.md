@@ -119,10 +119,35 @@ The details will change as we test different scenarios.
     - Run the app: `npx @evalarumbe/deps-experiment-sayhello`
     - Happy path: This works, because the app matches the version required by the plugin.
 
-    - As before, try now to update to the latest version of the app (which will conflict with the version required by the plugin's peer dependencies):
+    - As before, run this one more to update `package.json` so it requires the latest version of the app. This will conflict with the earlier version required by the plugin's peer dependencies:
     `npm i @evalarumbe/deps-experiment-sayhello@latest`
 
+
 - 11:30 Peer Dependency Warning on attempting to install plugin against V1 of App
+    - Completes 'successfully' but with warning:
+
+      ```sh
+      npm warn ERESOLVE overriding peer dependency
+      npm warn While resolving: @evalarumbe/deps-experiment-usingsayhello@1.0.0
+      npm warn Found: @evalarumbe/deps-experiment-sayhello@1.0.1
+      npm warn node_modules/@evalarumbe/deps-experiment-sayhello
+      npm warn   peer @evalarumbe/deps-experiment-sayhello@"^1.0.1" from @evalarumbe/deps-experiment-sayhelloplugin@1.0.2
+      npm warn   node_modules/@evalarumbe/deps-experiment-sayhelloplugin
+      npm warn     @evalarumbe/deps-experiment-sayhelloplugin@"^1.0.1" from the root project
+      npm warn   1 more (the root project)
+      npm warn
+      npm warn Could not resolve dependency:
+      npm warn peer @evalarumbe/deps-experiment-sayhello@"^1.0.1" from @evalarumbe/deps-experiment-sayhelloplugin@1.0.2
+      npm warn node_modules/@evalarumbe/deps-experiment-sayhelloplugin
+      npm warn   @evalarumbe/deps-experiment-sayhelloplugin@"^1.0.1" from the root project
+
+      changed 1 package, and audited 3 packages in 3s
+
+      found 0 vulnerabilities
+      ```
+
+      I.e. it "Found" a requirement for a peer dependency, and it "Could not resolve" that dependency.
+
 - 13:20 Scenario 4 - Installing Plugin with App V1 - peer dependency should warn/error
 - 14:40 Install Plugin shows Error and blocks install
 - 15:40 Force install of Plugin
