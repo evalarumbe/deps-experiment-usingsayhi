@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/evalarumbe/deps-experiment-usingsayhi#readme",
   "dependencies": {
-    "@evalarumbe/deps-experiment-sayhello": "^2.0.1",
+    "@evalarumbe/deps-experiment-sayhello": "^1.0.1",
     "@evalarumbe/deps-experiment-sayhelloplugin": "^1.0.1"
   }
 }

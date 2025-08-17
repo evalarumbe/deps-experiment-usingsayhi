@@ -106,9 +106,21 @@ The details will change as we test different scenarios.
   - Publish plugin v1.0.2
   - Let's see how it would've been different if we'd had the peer dependencies defined from the start:
 
-  - In the `usingsayhello` project, reset your file system:
+  - In the `usingsayhello` project:
+    - Reset your file system: delete `package-lock.json` and `node_modules/`
+    - Edit `package.json` so `sayhello` is back to an earlier version, and `sayhelloplugin` is at the newer version (with peer dependency):
+      ```json
+      "dependencies": {
+        "@evalarumbe/deps-experiment-sayhello": "^1.0.1",
+        "@evalarumbe/deps-experiment-sayhelloplugin": "^1.0.2"
+      }
+      ```
+    - Install: `npm i`
+    - Run the app: `npx @evalarumbe/deps-experiment-sayhello`
+    - Happy path: This works, because the app matches the version required by the plugin.
 
-    Delete `package-lock.json` and `node_modules/`
+    - As before, try now to update to the latest version of the app (which will conflict with the version required by the plugin's peer dependencies):
+    `npm i @evalarumbe/deps-experiment-sayhello@latest`
 
 - 11:30 Peer Dependency Warning on attempting to install plugin against V1 of App
 - 13:20 Scenario 4 - Installing Plugin with App V1 - peer dependency should warn/error
