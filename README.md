@@ -119,11 +119,11 @@ The details will change as we test different scenarios.
     - Run the app: `npx @evalarumbe/deps-experiment-sayhello`
     - Happy path: This works, because the app matches the version required by the plugin.
 
+  - 11:30 Peer Dependency Warning on attempting to install app against plugin with `peerDependencies`
+
     - As before, run this one more to update `package.json` so it requires the latest version of the app. This will conflict with the earlier version required by the plugin's peer dependencies:
     `npm i @evalarumbe/deps-experiment-sayhello@latest`
 
-
-- 11:30 Peer Dependency Warning on attempting to install plugin against V1 of App
     - Completes 'successfully' but with warning:
 
       ```sh
@@ -148,7 +148,44 @@ The details will change as we test different scenarios.
 
       I.e. it "Found" a requirement for a peer dependency, and it "Could not resolve" that dependency.
 
+    - That was just a _warning_ because we were trying to install the _app_. If we try to install the _plugin_ (which has the requirement defined for `peerDependencies`) we should get a blocking _error_.
+
+    - In `usingsayhello`:
+      - Run `npm i` (installs both app and plugin)
+
+        ```sh
+        npm error code ERESOLVE
+        npm error ERESOLVE could not resolve
+        npm error
+        npm error While resolving: @evalarumbe/deps-experiment-sayhelloplugin@1.0.2
+        npm error Found: @evalarumbe/deps-experiment-sayhello@2.0.1
+        npm error node_modules/@evalarumbe/deps-experiment-sayhello
+        npm error   @evalarumbe/deps-experiment-sayhello@"^2.0.1" from the root project
+        npm error
+        npm error Could not resolve dependency:
+        npm error peer @evalarumbe/deps-experiment-sayhello@"^1.0.1" from @evalarumbe/deps-experiment-sayhelloplugin@1.0.2
+        npm error node_modules/@evalarumbe/deps-experiment-sayhelloplugin
+        npm error   @evalarumbe/deps-experiment-sayhelloplugin@"^1.0.1" from the root project
+        npm error
+        npm error Conflicting peer dependency: @evalarumbe/deps-experiment-sayhello@1.0.1
+        npm error node_modules/@evalarumbe/deps-experiment-sayhello
+        npm error   peer @evalarumbe/deps-experiment-sayhello@"^1.0.1" from @evalarumbe/deps-experiment-sayhelloplugin@1.0.2
+        npm error   node_modules/@evalarumbe/deps-experiment-sayhelloplugin
+        npm error     @evalarumbe/deps-experiment-sayhelloplugin@"^1.0.1" from the root project
+        npm error
+        npm error Fix the upstream dependency conflict, or retry
+        npm error this command with --force or --legacy-peer-deps
+        npm error to accept an incorrect (and potentially broken) dependency resolution.
+        npm error
+        npm error
+        npm error For a full report see:
+        npm error /Users/.../.npm/_logs/2025-08-17T18_40_47_395Z-eresolve-report.txt
+        npm error A complete log of this run can be found in: /Users/.../.npm/_logs/2025-08-17T18_40_47_395Z-debug-0.log
+        ```
+
 - 13:20 Scenario 4 - Installing Plugin with App V1 - peer dependency should warn/error
+
+
 - 14:40 Install Plugin shows Error and blocks install
 - 15:40 Force install of Plugin
 
