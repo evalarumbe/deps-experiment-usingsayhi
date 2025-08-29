@@ -319,4 +319,73 @@ The details will change as we test different scenarios.
   ```
   This works without errors, but all is not as it seems 👀 We'll get a runtime error (see 8:50 above)
 
-- 
+
+<details>
+  <summary><h3>Explanation from Claude AI<h3></summary>
+
+  #### What's Happening Here
+  Your project has two packages that can't agree on which version of a shared dependency to use.
+
+  Looking at the error, here's what npm found in your file system:
+
+  ```sh
+  node_modules/
+  ├── @evalarumbe/deps-experiment-sayhello@2.0.1  ← Currently installed
+  └── @evalarumbe/deps-experiment-sayhelloplugin@1.0.2  ← Currently installed
+  ```
+  ##### The Players:
+
+  - Your root project wants `@evalarumbe/deps-experiment-sayhello@^2.0.1`
+  - Your root project also wants `@evalarumbe/deps-experiment-sayhelloplugin@^1.0.1`
+  - But the plugin has a peer dependency requiring `@evalarumbe/deps-experiment-sayhello@^1.0.1`
+
+  ##### The Conflict:
+
+  The plugin was **already installed** at version 1.0.2, but when npm tried to **validate** all peer dependencies, it discovered the version conflict. The plugin is essentially saying "I expect to find sayhello v1.x sitting next to me in the parent's `node_modules`, but I found v2.x instead."
+
+  #### Reading the Error Message
+
+  The error message follows a pattern:
+
+  1. "While resolving" - npm was validating this already-installed plugin
+  2. "Found" - this is what's actually installed
+  3. "Could not resolve dependency" - this is what the plugin needs
+  4. "Conflicting peer dependency" - npm shows what version _would_ satisfy the plugin
+
+  **The key insight is that peer dependencies are special - they're saying "I expect the parent project to provide this dependency, and I need this specific version range to function correctly."**
+
+  ##### Prefixes
+
+  The prefixes tell you what type of dependency is causing the conflict, which is crucial for understanding how to fix it.
+
+  Dependency Types in npm
+  **`peer`** - The package expects the parent project to provide this dependency
+
+  - Example: A React plugin expects you to already have React installed
+  - The plugin doesn't install React itself - it uses whatever version you have
+  - Common in plugins, themes, and framework extensions
+
+  **`dev`** - The package lists this as a development dependency (devDependencies)
+
+  - Only installed when you run `npm install` in that package's directory for development
+  - Not installed when the package is used as a dependency by others
+  - Used for testing, building, linting tools
+
+  ###### Other prefixes you might see:
+
+  - (no prefix) - Regular runtime dependency
+  - `optional` - Optional dependency that's nice to have but not required
+
+  #### Why This Matters
+
+  The plugin was probably built and tested against sayhello v1.x. If you force it to use v2.x, there might be breaking changes that could cause the plugin to malfunction, even if it seems to work initially.
+  
+  #### Your Options
+
+  1. **Downgrade sayhello** to v1.x (if your project can handle it)
+  2. **Upgrade the plugin** to a version that supports sayhello v2.x
+  3. **Use `--legacy-peer-deps`** to ignore the conflict (risky)
+  4. **Use `--force`** to override the conflict (also risky)
+
+  The cleanest solution is usually #1 or #2 - fixing the version mismatch rather than forcing incompatible versions together.
+</details>
